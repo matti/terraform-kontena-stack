@@ -14,7 +14,7 @@ locals {
 
 module "stack_install" {
   source  = "matti/resource/shell"
-  version = "0.3.0"
+  version = "0.3.1"
 
   depends_id = "${null_resource.start.id}"
 
@@ -24,7 +24,7 @@ module "stack_install" {
 
 module "stack_upgrade" {
   source  = "matti/resource/shell"
-  version = "0.3.0"
+  version = "0.3.1"
 
   depends_id = "${module.stack_install.id}"
   trigger    = "${local.variables_or_none}"
@@ -33,7 +33,7 @@ module "stack_upgrade" {
 
 module "stack_deploy" {
   source  = "matti/resource/shell"
-  version = "0.3.0"
+  version = "0.3.1"
 
   depends_id = "${module.stack_upgrade.id}"
   trigger    = "${module.stack_upgrade.id}"
