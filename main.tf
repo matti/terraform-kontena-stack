@@ -14,28 +14,31 @@ locals {
 
 module "stack_install" {
   source  = "matti/resource/shell"
-  version = "0.3.1"
+  version = "0.3.2"
 
   depends_id = "${null_resource.start.id}"
 
   command              = "kontena stack install --no-deploy ${local.variables_or_none} --name ${var.name} ${var.stack}"
   command_when_destroy = "kontena stack rm --force ${var.name}"
+  output_path          = "${var.output_path}"
 }
 
 module "stack_upgrade" {
   source  = "matti/resource/shell"
   version = "0.3.1"
 
-  depends_id = "${module.stack_install.id}"
-  trigger    = "${local.variables_or_none}"
-  command    = "kontena stack upgrade --no-deploy ${local.variables_or_none} ${var.name}"
+  depends_id  = "${module.stack_install.id}"
+  trigger     = "${local.variables_or_none}"
+  command     = "kontena stack upgrade --no-deploy ${local.variables_or_none} ${var.name}"
+  output_path = "${var.output_path}"
 }
 
 module "stack_deploy" {
   source  = "matti/resource/shell"
   version = "0.3.1"
 
-  depends_id = "${module.stack_upgrade.id}"
-  trigger    = "${module.stack_upgrade.id}"
-  command    = "kontena stack deploy ${var.name}"
+  depends_id  = "${module.stack_upgrade.id}"
+  trigger     = "${module.stack_upgrade.id}"
+  command     = "kontena stack deploy ${var.name}"
+  output_path = "${var.output_path}"
 }

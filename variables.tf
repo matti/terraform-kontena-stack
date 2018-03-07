@@ -8,3 +8,8 @@ variable "name" {}
 variable "variables" {
   default = {}
 }
+
+variable "ouput_path" {
+  type    = "string"
+  default = ""
+}
